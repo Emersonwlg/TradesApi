@@ -1,18 +1,22 @@
 ﻿using Trades.Application.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
 namespace Trades.Application.Interfaces
 {
     public interface IApplicationServiceTradeCategory
     {
-        void Add(TradeCategoryDto tradeCategoryDto);
+        Task Add(TradeCategoryDto tradeCategoryDto);
 
-        void Update(TradeCategoryDto tradeCategoryDto);
+        Task Update(TradeCategoryDto tradeCategoryDto);
 
-        void Remove(TradeCategoryDto tradeCategoryDto);
+        Task Remove(TradeCategoryDto tradeCategoryDto);
 
-        IEnumerable<string> GetTradeCategories(IList<PortfolioDto> portfolioDto);
+        Task<IEnumerable<string>> GetTradeCategories(IList<TradeDto> tradesDto);
 
-        TradeCategoryDto GetById(int id);
+        Task<TradeCategoryDto> GetById(Guid id);
+
+        Task<IEnumerable<TradeCategoryDto>> GetAll();
     }
 }

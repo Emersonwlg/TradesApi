@@ -4,17 +4,16 @@ using Trades.Domain.Entitys;
 
 namespace Trades.Application.Mappers
 {
-    public class ModelToDtoMappingPortfolio : Profile
+    public class DtoToModelMappingTrade : Profile
     {
-
-        public ModelToDtoMappingPortfolio()
+        public DtoToModelMappingTrade()
         {
-            PortfolioDtoMap();
+            PortfolioMap();
         }
 
-        private void PortfolioDtoMap()
+        private void PortfolioMap()
         {
-            CreateMap<Portfolio, PortfolioDto>()
+            CreateMap<TradeDto, Trade>()
                 .ForMember(dest => dest.ClientSector, opt => opt.MapFrom(x => x.ClientSector))
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(x => x.Value));
         }

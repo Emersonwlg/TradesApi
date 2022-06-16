@@ -6,6 +6,6 @@ namespace Trades.Domain.Core.Interfaces.Services
 {
     public interface IServiceTradeCategory : IServiceBase<TradeCategory>
     {
-        IEnumerable<string> GetTradeCategories(IList<Portfolio> listPortfolio);
+        Task<IEnumerable<string>> GetTradeCategories(IList<Trade> tradesDto);
     }
 }

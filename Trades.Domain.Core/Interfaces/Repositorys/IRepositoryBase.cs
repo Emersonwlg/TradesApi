@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Trades.Domain.Core.Interfaces.Repositorys
 {
     public interface IRepositoryBase<TEntity> where TEntity : class
     {
-        void Add(TEntity obj);
+        Task Add(TEntity entity);
 
-        void Update(TEntity obj);
+        Task Update(TEntity entity);
 
-        void Remove(TEntity obj);
+        Task Remove(TEntity entity);
 
-        IEnumerable<TEntity> GetAll();
+        Task<IEnumerable<TEntity>> GetAll();
 
-        TEntity GetById(int id);
+        Task<TEntity> GetById(Guid id);
+
+        Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
     }
 }

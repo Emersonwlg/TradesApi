@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Trades.Domain.Entitys
 {
-    [Table(name: "trade-category")]
+    [Table(name: "TradeCategory")]
     [Index(nameof(Value), nameof(ClientSector))]
     public class TradeCategory : Base
     {

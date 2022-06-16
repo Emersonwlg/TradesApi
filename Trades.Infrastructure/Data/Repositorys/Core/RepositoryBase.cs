@@ -1,26 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Trades.Domain.Core.Interfaces.Repositorys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Trades.Domain.Core.Interfaces.Repositorys;
 
 namespace Trades.Infrastructure.Data.Repositorys
 {
     public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
     {
-        private readonly SqlContext sqlContext;
+        private readonly SqlContext _sqlContext;
+        protected readonly DbSet<TEntity> DbSet;
 
         public RepositoryBase(SqlContext sqlContext)
         {
-            this.sqlContext = sqlContext;
+            _sqlContext = sqlContext;
+            DbSet = sqlContext.Set<TEntity>();
         }
 
-        public void Add(TEntity obj)
+        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await DbSet.AsNoTracking().Where(predicate).FirstOrDefaultAsync();
+        }
+
+        public async Task Add(TEntity entity)
         {
             try
             {
-                sqlContext.Set<TEntity>().Add(obj);
-                sqlContext.SaveChanges();
+                DbSet.Add(entity);
+                await SaveChanges();
             }
             catch (Exception ex)
             {
@@ -28,22 +37,22 @@ namespace Trades.Infrastructure.Data.Repositorys
             }
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return sqlContext.Set<TEntity>().ToList();
+            return await DbSet.ToListAsync();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetById(Guid id)
         {
-            return sqlContext.Set<TEntity>().Find(id);
+            return await DbSet.FindAsync(id);
         }
 
-        public void Remove(TEntity obj)
+        public async Task Remove(TEntity entity)
         {
             try
             {
-                sqlContext.Set<TEntity>().Remove(obj);
-                sqlContext.SaveChanges();
+                DbSet.Remove(entity);
+                await SaveChanges();
             }
             catch (Exception ex)
             {
@@ -51,17 +60,27 @@ namespace Trades.Infrastructure.Data.Repositorys
             }
         }
 
-        public void Update(TEntity obj)
+        public async Task Update(TEntity entity)
         {
             try
             {
-                sqlContext.Entry(obj).State = EntityState.Modified;
-                sqlContext.SaveChanges();
+                DbSet.Update(entity);
+                await SaveChanges();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        public async Task<int> SaveChanges()
+        {
+            return await _sqlContext.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            _sqlContext?.Dispose();
         }
     }
 }

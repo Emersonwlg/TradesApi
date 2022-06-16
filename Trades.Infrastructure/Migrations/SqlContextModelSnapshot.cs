@@ -21,10 +21,9 @@ namespace Trades.Infrastructure.Migrations
 
             modelBuilder.Entity("Trades.Domain.Entitys.TradeCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -46,7 +45,7 @@ namespace Trades.Infrastructure.Migrations
 
                     b.HasIndex("Value", "ClientSector");
 
-                    b.ToTable("trade-category");
+                    b.ToTable("TradeCategory");
                 });
 #pragma warning restore 612, 618
         }

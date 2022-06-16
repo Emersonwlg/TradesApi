@@ -4,6 +4,8 @@ using Trades.Application.Interfaces;
 using Trades.Domain.Core.Interfaces.Services;
 using Trades.Domain.Entitys;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
 namespace Trades.Application
 {
@@ -20,37 +22,45 @@ namespace Trades.Application
             this.mapper = mapper;
         }
        
-        public IEnumerable<string> GetTradeCategories(IList<PortfolioDto> listPortfolioDto)
+        public async Task<IEnumerable<string>> GetTradeCategories(IList<TradeDto> tradesDto)
         {
-            var portolios = mapper.Map<IList<Portfolio>>(listPortfolioDto);
-            return serviceTradeCategory.GetTradeCategories(portolios);
+            var portolios = mapper.Map<IList<TradeDto>, IList<Trade>>(tradesDto);
+            return await serviceTradeCategory.GetTradeCategories(portolios);
         }
 
-        public TradeCategoryDto GetById(int id)
+        public async Task<TradeCategoryDto> GetById(Guid id)
         {
-            var tradeCategory = serviceTradeCategory.GetById(id);
+            var tradeCategory = await serviceTradeCategory.GetById(id);
             var tradeCategoryDto = mapper.Map<TradeCategoryDto>(tradeCategory);
 
             return tradeCategoryDto;
         }
 
-        public void Add(TradeCategoryDto tradeCategoryDto)
+        public async Task Add(TradeCategoryDto tradeCategoryDto)
         {
             var tradeCategory = mapper.Map<TradeCategory>(tradeCategoryDto);
-            serviceTradeCategory.Add(tradeCategory);
+            await serviceTradeCategory .Add(tradeCategory);
         }
 
 
-        public void Remove(TradeCategoryDto tradeCategoryDto)
+        public async Task Remove(TradeCategoryDto tradeCategoryDto)
         {
             var tradeCategory = mapper.Map<TradeCategory>(tradeCategoryDto);
-            serviceTradeCategory.Remove(tradeCategory);
+            await serviceTradeCategory .Remove(tradeCategory);
         }
 
-        public void Update(TradeCategoryDto tradeCategoryDto)
+        public async Task Update(TradeCategoryDto tradeCategoryDto)
         {
             var tradeCategory = mapper.Map<TradeCategory>(tradeCategoryDto);
-            serviceTradeCategory.Update(tradeCategory);
+            await serviceTradeCategory .Update(tradeCategory);
+        }
+
+        public async Task<IEnumerable<TradeCategoryDto>> GetAll()
+        {
+            var tradeCategories = await serviceTradeCategory.GetAll();
+            var tradeCategoriesDto = mapper.Map<IEnumerable<TradeCategoryDto>>(tradeCategories);
+
+            return tradeCategoriesDto;
         }
     }
 }

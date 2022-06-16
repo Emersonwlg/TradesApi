@@ -2,6 +2,7 @@
 using Trades.Domain.Core.Interfaces.Services;
 using Trades.Domain.Entitys;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Trades.Domain.Services
 {
@@ -15,13 +16,13 @@ namespace Trades.Domain.Services
             _repositoryTradeCategory = repositoryTradeCategory;
         }
 
-        public IEnumerable<string> GetTradeCategories(IList<Portfolio> listPortfolio)
+        public async Task<IEnumerable<string>> GetTradeCategories(IList<Trade> tradesDto)
         {
             var tradeCategories = new List<string>();
 
-            foreach (var portfolio in listPortfolio)
+            foreach (var trades in tradesDto)
             {
-                var tradeCategory = _repositoryTradeCategory.GetTradeCategories(portfolio);
+                var tradeCategory = await _repositoryTradeCategory.GetTradeCategories(trades);
 
                 if (tradeCategory != null)
                     tradeCategories.Add(tradeCategory.Category);

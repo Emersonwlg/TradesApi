@@ -1,8 +1,7 @@
-﻿using Trades.Domain.Core.Interfaces.Repositorys;
-using Trades.Domain.Entitys;
-using System;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using Trades.Domain.Core.Interfaces.Repositorys;
+using Trades.Domain.Entitys;
 
 namespace Trades.Infrastructure.Data.Repositorys
 {
@@ -16,12 +15,12 @@ namespace Trades.Infrastructure.Data.Repositorys
             _sqlContext = sqlContext;
         }
 
-        public TradeCategory GetTradeCategories(Portfolio portfolio)
+        public async Task<TradeCategory> GetTradeCategories(Trade trade)
         {
             try
             {
-                return  _sqlContext.Set<TradeCategory>().Where(x => x.Value < portfolio.Value || x.Value > portfolio.Value
-                                                             && x.ClientSector == portfolio.ClientSector).FirstOrDefault();
+                return await Get(x => (x.Value < trade.Value || x.Value > trade.Value)
+                                && x.ClientSector == trade.ClientSector);
             }
             catch (Exception ex)
             {

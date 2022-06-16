@@ -1,6 +1,8 @@
 ﻿using Trades.Domain.Core.Interfaces.Repositorys;
 using Trades.Domain.Core.Interfaces.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
 namespace Trades.Domain.Services
 {
@@ -13,29 +15,29 @@ namespace Trades.Domain.Services
             this.repository = repository;
         }
 
-        public void Add(TEntity obj)
+        public async Task Add(TEntity obj)
         {
-            repository.Add(obj);
+            await repository.Add(obj);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return repository.GetAll();
+            return await repository.GetAll();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetById(Guid id)
         {
-            return repository.GetById(id);
+            return await repository.GetById(id);
         }
 
-        public void Remove(TEntity obj)
+        public async Task Remove(TEntity obj)
         {
-            repository.Remove(obj);
+            await repository.Remove(obj);
         }
 
-        public void Update(TEntity obj)
+        public async Task Update(TEntity obj)
         {
-            repository.Update(obj);
+            await repository.Update(obj);
         }
     }
 }

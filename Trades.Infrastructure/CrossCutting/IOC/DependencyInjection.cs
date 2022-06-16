@@ -43,8 +43,10 @@ namespace Trades.Infrastructure.CrossCutting.IOC
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new DtoToModelMappingPortfolio());
-                mc.AddProfile(new ModelToDtoMappingPortfolio());
+                mc.AddProfile(new DtoToModelMappingTrade());
+                mc.AddProfile(new ModelToDtoMappingTrade());
+                mc.AddProfile(new DtoToModelMappingTradeCategory());
+                mc.AddProfile(new ModelToDtoMappingTradeCategory());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Trades.Domain.Entitys
 {
-    public class Portfolio
+    public class Trade
     {
-        public double Value { get; }
-
-        public string ClientSector { get; }
+        public double Value { get; set; }
+        public string ClientSector { get; set; }
     }
 }

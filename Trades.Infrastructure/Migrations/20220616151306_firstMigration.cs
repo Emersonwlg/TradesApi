@@ -8,11 +8,10 @@ namespace Trades.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "trade-category",
+                name: "TradeCategory",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Value = table.Column<double>(type: "float", nullable: false),
                     ClientSector = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
@@ -20,19 +19,19 @@ namespace Trades.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_trade-category", x => x.Id);
+                    table.PrimaryKey("PK_TradeCategory", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_trade-category_Value_ClientSector",
-                table: "trade-category",
+                name: "IX_TradeCategory_Value_ClientSector",
+                table: "TradeCategory",
                 columns: new[] { "Value", "ClientSector" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "trade-category");
+                name: "TradeCategory");
         }
     }
 }

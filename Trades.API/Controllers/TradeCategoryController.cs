@@ -4,6 +4,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Trades.Application.Dtos;
 using Trades.Application.Interfaces;
 
@@ -16,20 +17,42 @@ namespace Trades.API.Controllers
         private readonly IApplicationServiceTradeCategory _applicationServiceTradeCategory;
         private readonly ILogger _logger;
 
-        public TradeCategoryController(IApplicationServiceTradeCategory applicationServiceTradeCategory, ILogger logger)
+        public TradeCategoryController(IApplicationServiceTradeCategory applicationServiceTradeCategory, 
+                                       ILogger logger)
         {
             _applicationServiceTradeCategory = applicationServiceTradeCategory;
             _logger = logger;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
+        {
+            try
+            {
+                _logger.Information($"Getting all trades categories.");
+
+                var result = await _applicationServiceTradeCategory.GetAll();
+
+                if (result == null)
+                    return NotFound(false.AsNotFoundResponse("Trades categories not found."));
+
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.Information($"error: {ex.Message} - please contact the administrator.");
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public async Task<ActionResult<TradeCategoryDto>> GetById(Guid id)
         {
             try
             {
                 _logger.Information($"Getting trade category by id.");
 
-                var result = _applicationServiceTradeCategory.GetById(id);
+                var result = await _applicationServiceTradeCategory.GetById(id);
 
                 if (result == null)
                     return NotFound(false.AsNotFoundResponse("Trade category not found."));
@@ -45,18 +68,18 @@ namespace Trades.API.Controllers
 
         [HttpPost]
         [Route("GetTradeCategoriesByTrades")]
-        public ActionResult<IEnumerable<string>> GetTradeCategoriesByTrades([FromBody] IList<PortfolioDto> portfolioDto)
+        public async Task<ActionResult> GetTradeCategoriesByTrades([FromBody] IList<TradeDto> tradesDto)
         {
             try
             {
                 _logger.Information($"Getting trade categories.");
 
-                var result = _applicationServiceTradeCategory.GetTradeCategories(portfolioDto);
+                var result = await _applicationServiceTradeCategory.GetTradeCategories(tradesDto);
 
                 if (result == null)
                     return NotFound(false.AsNotFoundResponse("Trade category not found."));
 
-                return Ok();
+                return Ok(result);
             }
             catch (ArgumentException ex)
             {
@@ -66,16 +89,16 @@ namespace Trades.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] TradeCategoryDto tradeCategoryDto)
+        public async Task<ActionResult> Post([FromBody] TradeCategoryDto tradeCategoryDto)
         {
             try
             {
                 if (tradeCategoryDto == null)
                     return NotFound();
 
-                _logger.Information($"Creating trade categories.");
+                _logger.Information($"Creating trade category.");
 
-                _applicationServiceTradeCategory.Add(tradeCategoryDto);
+                await _applicationServiceTradeCategory.Add(tradeCategoryDto);
 
                 return Ok(true.AsSuccessResponse("Successfully created."));
             }
@@ -87,16 +110,16 @@ namespace Trades.API.Controllers
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] TradeCategoryDto tradeCategoryDto)
+        public async Task<ActionResult> Put([FromBody] TradeCategoryDto tradeCategoryDto)
         {
             try
             {
                 if (tradeCategoryDto == null)
                     return NotFound();
 
-                _logger.Information($"Updating trade categories.");
+                _logger.Information($"Updating trade category.");
 
-                _applicationServiceTradeCategory.Update(tradeCategoryDto);
+                await _applicationServiceTradeCategory.Update(tradeCategoryDto);
 
                 return Ok(true.AsSuccessResponse("Successfully updated."));
             }
@@ -108,16 +131,18 @@ namespace Trades.API.Controllers
         }
 
         [HttpDelete()]
-        public ActionResult Delete([FromBody] TradeCategoryDto tradeCategoryDto)
+        public async Task<ActionResult> Delete(Guid id)
         {
             try
             {
-                if (tradeCategoryDto == null)
+                var tradeCategoryDelete = await _applicationServiceTradeCategory.GetById(id);
+
+                if (tradeCategoryDelete == null)
                     return NotFound();
 
-                _logger.Information($"Deleting trade categories.");
+                _logger.Information($"Deleting trade category.");
 
-                _applicationServiceTradeCategory.Remove(tradeCategoryDto);
+                await _applicationServiceTradeCategory.Remove(tradeCategoryDelete);
                 return Ok("Successfully deleted.");
             }
             catch (ArgumentException ex)
