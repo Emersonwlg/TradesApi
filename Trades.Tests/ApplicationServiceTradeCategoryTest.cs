@@ -1,89 +1,84 @@
-//using System.Collections.Generic;
-//using System.Linq;
-//using AutoFixture;
-//using AutoMapper;
-//using Moq;
-//using NUnit.Framework;
-//using Trades.Application;
-//using Trades.Application.Dtos;
-//using Trades.Domain.Core.Interfaces.Services;
-//using Trades.Domain.Entitys;
+using AutoFixture;
+using AutoMapper;
+using Moq;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using Trades.Application;
+using Trades.Application.Dtos;
+using Trades.Domain.Core.Interfaces.Services;
+using Trades.Domain.Entitys;
 
-//namespace Trades.Tests
-//{
-//    [TestFixture]
-//    public class ApplicationServiceTradeCategoryTest
-//    {
+namespace trades.tests
+{
+    [TestFixture]
+    public class ApplicationServiceTradeCategorytest
+    {
+        private static Fixture _fixture;
+        private Mock<IServiceTradeCategory> _serviceTradeCategory;
+        private Mock<IMapper> _mappermock;
 
-//        private static Fixture _fixture;
-//        private Mock<IServiceTradeCategory> _serviceTradeCategoryMock;
-//        private Mock<IMapper> _mapperMock;
+        [SetUp]
+        public void setup()
+        {
+            _fixture = new Fixture();
+            _serviceTradeCategory = new Mock<IServiceTradeCategory>();
+            _mappermock = new Mock<IMapper>();
+        }
 
+        [Test]
+        public void ApplicationServiceTradeCategory_GetAll_ShouldReturnThreeTradeCategory()
+        {
+            //arrange
+            var tradeCategories = _fixture.Build<TradeCategory>().CreateMany(3);
+            var tradeCategoryDto = _fixture.Build<TradeCategoryDto>().CreateMany(3);
 
-//        [SetUp]
-//        public void Setup()
-//        {
-//            _fixture = new Fixture();
-//            _serviceTradeCategoryMock = new Mock<IServiceTradeCategory>();
-//            _mapperMock = new Mock<IMapper>();
-//        }
+            _serviceTradeCategory.Setup(x => x.GetAll()).ReturnsAsync(tradeCategories);
+            _mappermock.Setup(x => x.Map<IEnumerable<TradeCategoryDto>>(tradeCategories)).Returns(tradeCategoryDto);
 
-//        [Test]
-//        public void ApplicationServiceTradeCategoryTestGetTradeCategoriesByTrades_ShouldReturnFiveCTradeCagegories()
-//        {
-//            //Arrange
-//            var clientes = _fixture.Build<Cliente>().CreateMany(5);
-//            var clientesDto = _fixture.Build<ClienteDto>().CreateMany(5);
+            var applicationServiceTradeCategory = new ApplicationServiceTradeCategory(_serviceTradeCategory.Object, _mappermock.Object);
 
-//            _serviceTradeCategoryMock.Setup(x => x.GetAll()).Returns(clientes);
-//            _mapperMock.Setup(x => x.Map<IEnumerable<ClienteDto>>(clientes)).Returns(clientesDto);
+            //act
+            var result = applicationServiceTradeCategory.GetAll();
 
-//            var applicationServiceCliente = new ApplicationServiceCliente(_serviceTradeCategoryMock.Object, _mapperMock.Object);
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(5, result);
+            _serviceTradeCategory.VerifyAll();
+            _mappermock.VerifyAll();
+        }
 
-//            //Act
-//            var result = applicationServiceCliente.GetAll();
+        [Test]
+        public void ApplicationServiceTradeCategory_GetById_ShouldReturnTradeCategory()
+        {
+            //arrange
+            Guid id = Guid.Parse("E86EDF2F-242C-4423-9666-A4DC41EBDD79");
 
-//            //Assert
-//            Assert.IsNotNull(result);
-//            Assert.AreEqual(5, result.Count());
-//            _serviceTradeCategoryMock.VerifyAll();
-//            _mapperMock.VerifyAll();
-//        }
+            var tradeCategory = _fixture.Build<TradeCategory>()
+                .With(c => c.Id, id)
+                .With(c => c.Category, "Public")
+                .Create();
 
-//        [Test]
-//        public void ApplicationServiceTradeCategoryTest_GetById_ShouldReturnTradeCategory()
-//        {
-//            //Arrange
-//            const int id = 10;
+            var tradecategorydto = _fixture.Build<TradeCategoryDto>()
+                .With(c => c.Id, id)
+                .With(c => c.Category, "Public")
+                .Create();
 
-//            var cliente = _fixture.Build<TradeCategory>()
-//                .With(c => c.Id, id)
-//                .With(c => c.Email, "teste1@teste.com.br")
-//                .Create();
+            _serviceTradeCategory.Setup(x => x.GetById(id)).ReturnsAsync(tradeCategory);
+            _mappermock.Setup(x => x.Map<TradeCategoryDto>(tradeCategory)).Returns(tradecategorydto);
 
-//            var tradeCategoryDto = _fixture.Build<TradeCategoryDto>()
-//                .With(c => c.Id, id)
-//                .With(c => c.Email, "teste1@teste.com.br")
-//                .Create();
+            var applicationservicecliente =
+                new ApplicationServiceTradeCategory(_serviceTradeCategory.Object, _mappermock.Object);
 
-//            _serviceTradeCategoryMock.Setup(x => x.GetById(id)).Returns(cliente);
-//            _mapperMock.Setup(x => x.Map<ClienteDto>(cliente)).Returns(clienteDto);
+            //act
+            var result = applicationservicecliente.GetById(id);
 
-//            var applicationServiceCliente =
-//                new ApplicationServiceCliente(_serviceTradeCategoryMock.Object, _mapperMock.Object);
-
-//            //Act
-//            var result = applicationServiceCliente.GetById(id);
-
-//            //Assert
-//            Assert.IsNotNull(result);
-//            Assert.AreEqual("teste1@teste.com.br", result.Email);
-//            Assert.AreEqual(10, result.Id);
-//            _serviceTradeCategoryMock.VerifyAll();
-//            _mapperMock.VerifyAll();
-
-
-//        }
-
-//    }
-//}
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Public", result.Result.Category);
+            Assert.AreEqual(Guid.Parse("E86EDF2F-242C-4423-9666-A4DC41EBDD79"), result.Id);
+            _serviceTradeCategory.VerifyAll();
+            _mappermock.VerifyAll();
+        }
+    }
+}

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Trades.Application\Trades.Application.csproj" />
     <ProjectReference Include="..\Trades.Domain.Core\Trades.Domain.Core.csproj" />
   </ItemGroup>
 
