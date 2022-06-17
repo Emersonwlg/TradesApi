@@ -39,20 +39,20 @@ namespace Trades.Application
         public async Task Add(TradeCategoryDto tradeCategoryDto)
         {
             var tradeCategory = mapper.Map<TradeCategory>(tradeCategoryDto);
-            await serviceTradeCategory .Add(tradeCategory);
+            await serviceTradeCategory.Add(tradeCategory);
         }
 
 
         public async Task Remove(TradeCategoryDto tradeCategoryDto)
         {
             var tradeCategory = mapper.Map<TradeCategory>(tradeCategoryDto);
-            await serviceTradeCategory .Remove(tradeCategory);
+            await serviceTradeCategory.Remove(tradeCategory);
         }
 
         public async Task Update(TradeCategoryDto tradeCategoryDto)
         {
             var tradeCategory = mapper.Map<TradeCategory>(tradeCategoryDto);
-            await serviceTradeCategory .Update(tradeCategory);
+            await serviceTradeCategory.Update(tradeCategory);
         }
 
         public async Task<IEnumerable<TradeCategoryDto>> GetAll()
