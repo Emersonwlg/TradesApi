@@ -43,7 +43,7 @@ namespace Trades.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "API  categories of trades",
+                    Title = "API trade categories",
                     Version = "v1",
                     Description = "API Trade Categories"
                 });
