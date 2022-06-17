@@ -15,10 +15,10 @@ namespace Trades.Application
         private readonly IMapper mapper;
 
         public ApplicationServiceTradeCategory(
-            IServiceTradeCategory serviceCliente,
+            IServiceTradeCategory serviceTradeCategory,
             IMapper mapper)
         {
-            this.serviceTradeCategory = serviceCliente;
+            this.serviceTradeCategory = serviceTradeCategory;
             this.mapper = mapper;
         }
        
