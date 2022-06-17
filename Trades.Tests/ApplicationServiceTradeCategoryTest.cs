@@ -67,11 +67,11 @@ namespace trades.tests
             _serviceTradeCategory.Setup(x => x.GetById(id)).ReturnsAsync(tradeCategory);
             _mappermock.Setup(x => x.Map<TradeCategoryDto>(tradeCategory)).Returns(tradecategorydto);
 
-            var applicationservicecliente =
+            var applicationServiceTradeCategory =
                 new ApplicationServiceTradeCategory(_serviceTradeCategory.Object, _mappermock.Object);
 
             //act
-            var result = applicationservicecliente.GetById(id);
+            var result = applicationServiceTradeCategory.GetById(id);
 
             //assert
             Assert.IsNotNull(result);
