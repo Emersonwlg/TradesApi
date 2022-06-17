@@ -1,4 +1,5 @@
 ﻿using System;
+using Trades.Application.Enums;
 
 namespace Trades.Application.Dtos
 {
@@ -9,5 +10,7 @@ namespace Trades.Application.Dtos
         public double Value { get; set; }
         public string ClientSector { get; set; }
         public DateTime CreationDate { get; set; }
+        public MathSymbolsEnum Symbol { get; set; }
+
     }
 }

@@ -28,15 +28,18 @@ namespace Trades.Infrastructure.Migrations
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("varchar(25)");
 
                     b.Property<string>("ClientSector")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("varchar(25)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Symbol")
+                        .HasColumnType("int");
 
                     b.Property<double>("Value")
                         .HasColumnType("float");

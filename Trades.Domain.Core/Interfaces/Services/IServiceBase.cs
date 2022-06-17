@@ -6,11 +6,11 @@ namespace Trades.Domain.Core.Interfaces.Services
 {
     public interface IServiceBase<TEntity> where TEntity : class
     {
-        Task Add(TEntity obj);
+        Task Add(TEntity entity);
 
-        Task Update(TEntity obj);
+        Task Update(TEntity entity);
 
-        Task Remove(TEntity obj);
+        Task Remove(TEntity entity);
 
         Task<IEnumerable<TEntity>> GetAll();
 

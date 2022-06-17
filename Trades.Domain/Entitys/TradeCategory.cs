@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Trades.Application.Enums;
 
 namespace Trades.Domain.Entitys
 {
@@ -19,5 +20,9 @@ namespace Trades.Domain.Entitys
         [Required]
         [MaxLength(25)]
         public string ClientSector { get; set; }
+
+        [Required]
+
+        public int Symbol { get; set; }
     }
 }

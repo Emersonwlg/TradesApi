@@ -12,9 +12,10 @@ namespace Trades.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Category = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
                     Value = table.Column<double>(type: "float", nullable: false),
-                    ClientSector = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    ClientSector = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
+                    Symbol = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

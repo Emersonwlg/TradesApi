@@ -44,7 +44,7 @@ namespace Trades.Infrastructure.Data.Repositorys
 
         public async Task<TEntity> GetById(Guid id)
         {
-            return await DbSet.FindAsync(id);
+            return await DbSet.AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task Remove(TEntity entity)

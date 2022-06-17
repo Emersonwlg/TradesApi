@@ -15,9 +15,9 @@ namespace Trades.Domain.Services
             this.repository = repository;
         }
 
-        public async Task Add(TEntity obj)
+        public async Task Add(TEntity entity)
         {
-            await repository.Add(obj);
+            await repository.Add(entity);
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -30,14 +30,14 @@ namespace Trades.Domain.Services
             return await repository.GetById(id);
         }
 
-        public async Task Remove(TEntity obj)
+        public async Task Remove(TEntity entity)
         {
-            await repository.Remove(obj);
+            await repository.Remove(entity);
         }
 
-        public async Task Update(TEntity obj)
+        public async Task Update(TEntity entity)
         {
-            await repository.Update(obj);
+            await repository.Update(entity);
         }
     }
 }

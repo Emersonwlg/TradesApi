@@ -26,7 +26,13 @@ namespace Trades.API
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration["SqlConnection:DefaultConnection"];
-            services.AddDbContext<SqlContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<SqlContext>(options =>
+            {
+                options.UseSqlServer(connection);
+                options.EnableSensitiveDataLogging();
+
+
+            });
             services.AddControllers();
             services.AddMvc(options =>
             {
@@ -35,9 +41,9 @@ namespace Trades.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo 
-                { 
-                    Title = "API  categories of trades", 
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "API  categories of trades",
                     Version = "v1",
                     Description = "API Trade Categories"
                 });
