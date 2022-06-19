@@ -15,6 +15,7 @@ namespace Api.Application.ViewModels.Response
         {
             return base.Success<GenericResponse<T>>(message);
         }
+
         public virtual GenericResponse<T> NotFound(string message = null)
         {
             return base.NotFound<GenericResponse<T>>(message);

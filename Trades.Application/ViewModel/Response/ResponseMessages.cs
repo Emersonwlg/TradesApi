@@ -6,15 +6,15 @@ namespace Api.Application.ViewModels.Response
     {
         public static IDictionary<ResponseStatusEnum, string> Messages = new Dictionary<ResponseStatusEnum, string>()
         {
-            { ResponseStatusEnum.Error, "Erro interno de servidor" },
-            { ResponseStatusEnum.Success, "Sucesso" },
-            { ResponseStatusEnum.NoModified, "Não foi possivel modificar" },
-            { ResponseStatusEnum.NotFound, "Não encontrado" },
+            { ResponseStatusEnum.Error, "Internal server error" },
+            { ResponseStatusEnum.Success, "Success" },
+            { ResponseStatusEnum.NoModified, "Could not modify" },
+            { ResponseStatusEnum.NotFound, "Not found" },
             { ResponseStatusEnum.BadRequest, "Verifique os campos informados" },
-            { ResponseStatusEnum.Unprocessable, "Parâmetros inválidos" },
-            { ResponseStatusEnum.Forbidden, "Usuário não tem permissão" },
-            { ResponseStatusEnum.Conflict, "Conflito" },
-            { ResponseStatusEnum.Unauthorized, "Acesso não autorizado" }
+            { ResponseStatusEnum.Unprocessable, "Check the fields provided" },
+            { ResponseStatusEnum.Forbidden, "User does not have permission" },
+            { ResponseStatusEnum.Conflict, "Conflict" },
+            { ResponseStatusEnum.Unauthorized, "Unauthorized access" }
         };
     }
 }
