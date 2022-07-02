@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Services", "1 - Services", "{21D35766-25BB-4466-AEEC-86FAFF7271CA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{21D35766-25BB-4466-AEEC-86FAFF7271CA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2- Application", "2- Application", "{0C61800B-F83B-4BC3-9E33-3830AF6E93B8}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trades.Infrastructure", "Tr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Tests", "5 - Tests", "{82CDBA78-0F8C-4CB8-AF3A-A642512D148D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trades.Tests", "Trades.Tests\Trades.Tests.csproj", "{0F639E54-CD85-471A-82FB-1E90BF8DB6A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trades.Tests", "Trades.Tests\Trades.Tests.csproj", "{0F639E54-CD85-471A-82FB-1E90BF8DB6A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
